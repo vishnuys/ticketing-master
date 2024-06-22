@@ -61,4 +61,9 @@ public class TicketController {
     public List<Map<String, String>> getUserReceipts(@RequestBody UserRequest request) {
         return ticketService.getReceiptsForUser(request.getEmail());
     }
+
+    @PostMapping("change-seats")
+    public List<Map<String, Object>> changeSeatsForUser(@RequestBody UserRequest request) {
+        return ticketService.changeSeatsForUser(request.getEmail());
+    }
 }

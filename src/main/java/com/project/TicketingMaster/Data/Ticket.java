@@ -15,13 +15,13 @@ public class Ticket {
     private final User user;
     private final String from;
     private final String to;
-    private final SeatAllocation seatAllocation;
+    private SeatAllocation seatAllocation;
     private final BigDecimal price;
 
     public Map<String, String> getReceipt() {
         Map<String, String> receipt = new HashMap<>();
         receipt.put("Receipt Number", this.getReceiptNumber().toString());
-        receipt.put("Passenger Name", this.user.getFirstName() + " " + this.user.getLastName());
+        receipt.put("Passenger Name", this.user.getFullName());
         receipt.put("Passenger Email", this.user.getEmail());
         receipt.put("From", this.from);
         receipt.put("To", this.to);

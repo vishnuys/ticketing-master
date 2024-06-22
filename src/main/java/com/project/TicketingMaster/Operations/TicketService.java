@@ -1,6 +1,7 @@
 package com.project.TicketingMaster.Operations;
 
 import com.project.TicketingMaster.Constants.Price;
+import com.project.TicketingMaster.Data.ChangedSeats;
 import com.project.TicketingMaster.Data.SeatAllocation;
 import com.project.TicketingMaster.Data.Section;
 import com.project.TicketingMaster.Data.Ticket;
@@ -77,5 +78,19 @@ public class TicketService {
             tickets.remove(ticket.getReceiptNumber());
         }
         return userTickets;
+    }
+
+    public List<Map<String, Object>> changeSeatsForUser(String email) {
+        List<Ticket> userTickets = getTicketsForUser(email);
+        List<Map<String, Object>> changedSeats = new ArrayList<>();
+        for (Ticket ticket: userTickets) {
+            SeatAllocation previousSeat = ticket.getSeatAllocation();
+            SeatAllocation newSeat = allocateSeat();
+            ticket.setSeatAllocation(newSeat);
+            assignedSeats.remove(previousSeat.getSeatNumber());
+            ChangedSeats changedSeat = new ChangedSeats(ticket.getUser(),previousSeat, newSeat, ticket.getReceipt());
+            changedSeats.add(changedSeat.getChangedSeats());
+        }
+        return changedSeats;
     }
 }
