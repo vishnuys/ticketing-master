@@ -7,6 +7,8 @@ import com.project.TicketingMaster.Data.Ticket;
 import com.project.TicketingMaster.Data.User;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +31,16 @@ public class TicketService {
         );
         tickets.put(newTicket.getReceiptNumber(), newTicket);
         return newTicket;
+    }
+
+    public List<Map<String, String>> getTicketsForUser(String email) {
+        List<Map<String, String>> userTickets = new ArrayList<>();
+        for (Map.Entry<Long, Ticket> ticket: tickets.entrySet()) {
+            if (ticket.getValue().getUser().getEmail().equals(email)) {
+                userTickets.add(ticket.getValue().getReceipt());
+            }
+        }
+        return userTickets;
     }
 
     private SeatAllocation allocateSeat() {

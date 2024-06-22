@@ -7,6 +7,7 @@ import com.project.TicketingMaster.Operations.TicketService;
 import com.project.TicketingMaster.Operations.UserService;
 import com.project.TicketingMaster.Requests.PurchaseRequest;
 import com.project.TicketingMaster.Requests.ReceiptRequest;
+import com.project.TicketingMaster.Requests.UserReceiptsRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,5 +50,10 @@ public class TicketController {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Invalid Receipt Number");
         }
+    }
+
+    @PostMapping("get-user-receipts")
+    public List<Map<String, String>> getUserReceipts(@RequestBody UserReceiptsRequest request) {
+        return ticketService.getTicketsForUser(request.getEmail());
     }
 }

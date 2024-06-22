@@ -22,7 +22,6 @@ public class UserController {
 
     @PostMapping("get-user")
     public Map<String, String> getUserHandler(@RequestBody UserRequest request) {
-        System.out.println(request.toString());
         Optional<User> user = userService.getUser(request.getEmail());
         if (user.isPresent()) {
             return user.get().getUserDetails();
