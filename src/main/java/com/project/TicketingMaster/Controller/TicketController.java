@@ -7,7 +7,7 @@ import com.project.TicketingMaster.Operations.TicketService;
 import com.project.TicketingMaster.Operations.UserService;
 import com.project.TicketingMaster.Requests.PurchaseRequest;
 import com.project.TicketingMaster.Requests.ReceiptRequest;
-import com.project.TicketingMaster.Requests.UserReceiptsRequest;
+import com.project.TicketingMaster.Requests.UserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +32,13 @@ public class TicketController {
         List<String> invalidParams = requestService.validatePurchaseRequest(request);
         if (invalidParams.isEmpty()) {
             User user = userService.createUser(request.getFirstName(), request.getLastName(), request.getEmail());
-            Ticket ticket = ticketService.purchaseTicket(request.getFrom(), request.getTo(), user);
-            return ticket.getReceipt();
+            Optional<Ticket> ticket = ticketService.purchaseTicket(request.getFrom(), request.getTo(), user);
+            if (ticket.isPresent()) {
+                return ticket.get().getReceipt();
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_ACCEPTABLE, "No Seats Available");
+            }
         } else {
             String invalidParamString = invalidParams.toString();
             throw new ResponseStatusException(
@@ -53,7 +58,7 @@ public class TicketController {
     }
 
     @PostMapping("get-user-receipts")
-    public List<Map<String, String>> getUserReceipts(@RequestBody UserReceiptsRequest request) {
-        return ticketService.getTicketsForUser(request.getEmail());
+    public List<Map<String, String>> getUserReceipts(@RequestBody UserRequest request) {
+        return ticketService.getReceiptsForUser(request.getEmail());
     }
 }

@@ -29,6 +29,15 @@ public class UserController {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "User with the given email does not exist");
         }
+    }
 
+    @PostMapping("remove-user")
+    public Map<String, Object> removeUserHandler(@RequestBody UserRequest request) {
+        try{
+            return userService.removeTicketsForUser(request.getEmail());
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "User with the given email does not exist");
+        }
     }
 }
