@@ -9,6 +9,7 @@ import com.project.TicketingMaster.Data.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,9 +47,9 @@ public class TicketService {
 
     private List<Ticket> getTicketsForUser(String email) {
         List<Ticket> userTickets = new ArrayList<>();
-        for (Map.Entry<Long, Ticket> ticket: tickets.entrySet()) {
-            if (ticket.getValue().getUser().getEmail().equals(email)) {
-                userTickets.add(ticket.getValue());
+        for (Ticket ticket: tickets.values()) {
+            if (ticket.getUser().getEmail().equals(email)) {
+                userTickets.add(ticket);
             }
         }
         return userTickets;
@@ -92,5 +93,18 @@ public class TicketService {
             changedSeats.add(changedSeat.getChangedSeats());
         }
         return changedSeats;
+    }
+
+    public List<Map<String, String>> getUsersBySection(Section section) {
+        List<Map<String, String>> userList = new ArrayList<>();
+        for (Ticket ticket: tickets.values()) {
+            if (ticket.getSeatAllocation().getSection().sectionName.equals(section.sectionName)) {
+                Map<String, String> userSeatMap = new HashMap<>();
+                userSeatMap.put("User Name", ticket.getUser().getFullName());
+                userSeatMap.put("Seat Number", ticket.getSeatAllocation().getSeatNumber().toString());
+                userList.add(userSeatMap);
+            }
+        }
+        return userList;
     }
 }

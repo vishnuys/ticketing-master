@@ -5,6 +5,7 @@ import com.project.TicketingMaster.Operations.UserService;
 import com.project.TicketingMaster.Requests.UserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,11 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping
+    public String homePageHandler() {
+        return "Welcome To Ticket Master";
+    }
 
     @PostMapping("get-user")
     public Map<String, String> getUserHandler(@RequestBody UserRequest request) {

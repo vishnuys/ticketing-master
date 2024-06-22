@@ -1,5 +1,6 @@
 package com.project.TicketingMaster.Controller;
 
+import com.project.TicketingMaster.Data.Section;
 import com.project.TicketingMaster.Data.Ticket;
 import com.project.TicketingMaster.Data.User;
 import com.project.TicketingMaster.Operations.RequestService;
@@ -7,6 +8,7 @@ import com.project.TicketingMaster.Operations.TicketService;
 import com.project.TicketingMaster.Operations.UserService;
 import com.project.TicketingMaster.Requests.PurchaseRequest;
 import com.project.TicketingMaster.Requests.ReceiptRequest;
+import com.project.TicketingMaster.Requests.SectionRequest;
 import com.project.TicketingMaster.Requests.UserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,12 +60,23 @@ public class TicketController {
     }
 
     @PostMapping("get-user-receipts")
-    public List<Map<String, String>> getUserReceipts(@RequestBody UserRequest request) {
+    public List<Map<String, String>> getUserReceiptsHandler(@RequestBody UserRequest request) {
         return ticketService.getReceiptsForUser(request.getEmail());
     }
 
     @PostMapping("change-seats")
-    public List<Map<String, Object>> changeSeatsForUser(@RequestBody UserRequest request) {
+    public List<Map<String, Object>> changeSeatsForUserHandler(@RequestBody UserRequest request) {
         return ticketService.changeSeatsForUser(request.getEmail());
+    }
+
+    @PostMapping("get-users-by-section")
+    public List<Map<String, String>> getUsersBySectionHandler(@RequestBody SectionRequest request) {
+        try {
+            Section requestSection = Section.of(request.getSection());
+            return ticketService.getUsersBySection(requestSection);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid Section");
+        }
     }
 }
