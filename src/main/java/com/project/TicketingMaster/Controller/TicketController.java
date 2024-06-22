@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-public class ApiController {
+public class TicketController {
 
     private final TicketService ticketService;
     private final UserService userService;

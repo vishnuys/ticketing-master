@@ -8,8 +8,8 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReceiptRequest {
+public class UserRequest {
 
     @NonNull
-    private Long receiptNumber;
+    private String email;
 }
