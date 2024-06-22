@@ -8,6 +8,7 @@ import com.project.TicketingMaster.Data.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -15,18 +16,18 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TicketService {
 
     private final Map<Long, Ticket> tickets = new ConcurrentHashMap<>();
-    private final AtomicLong ticketIdGenerator = new AtomicLong();
+    private final AtomicLong receiptNumberGenerator = new AtomicLong();
 
     public Ticket purchaseTicket(String from, String to, User user) {
         Ticket newTicket = new Ticket(
-                ticketIdGenerator.incrementAndGet(),
+                receiptNumberGenerator.incrementAndGet(),
                 user,
                 from,
                 to,
                 allocateSeat(),
                 Price.getPrice(from, to)
         );
-        tickets.put(newTicket.getTicketNumber(), newTicket);
+        tickets.put(newTicket.getReceiptNumber(), newTicket);
         return newTicket;
     }
 
@@ -36,4 +37,10 @@ public class TicketService {
         return new SeatAllocation(section, seatNumber);
     }
 
+    public Optional<Ticket> getTicket(Long receiptNumber) {
+        if (tickets.containsKey(receiptNumber)) {
+            return Optional.of(tickets.get(receiptNumber));
+        }
+        return Optional.empty();
+    }
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class Ticket {
-    private final Long ticketNumber;
+    private final Long receiptNumber;
     private final User user;
     private final String from;
     private final String to;
@@ -20,7 +20,7 @@ public class Ticket {
 
     public Map<String, String> getReceipt() {
         Map<String, String> receipt = new HashMap<>();
-        receipt.put("Receipt Number", this.getTicketNumber().toString());
+        receipt.put("Receipt Number", this.getReceiptNumber().toString());
         receipt.put("Passenger Name", this.user.getFirstName() + " " + this.user.getLastName());
         receipt.put("Passenger Email", this.user.getEmail());
         receipt.put("From", this.from);

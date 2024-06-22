@@ -1,4 +1,4 @@
-package com.project.TicketingMaster.Data;
+package com.project.TicketingMaster.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.project.TicketingMaster.Operations;
 
 import com.project.TicketingMaster.Constants.Location;
-import com.project.TicketingMaster.Data.PurchaseRequest;
+import com.project.TicketingMaster.Requests.PurchaseRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
