@@ -17,6 +17,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Service to handle ticketing operations
+ */
 @Service
 public class TicketService {
 
@@ -24,6 +27,13 @@ public class TicketService {
     private final Set<Integer> assignedSeats = ConcurrentHashMap.newKeySet();
     private final AtomicLong receiptNumberGenerator = new AtomicLong();
 
+    /**
+     * Checks if Seat exists and creates a ticket if it does.
+     * @param from location
+     * @param to location
+     * @param user details
+     * @return { Ticket } if ticket was successfully generated else optional.empty
+     */
     public Optional<Ticket> purchaseTicket(String from, String to, User user) {
         if (assignedSeats.size() < 100) {
             Ticket newTicket = new Ticket(
@@ -40,11 +50,21 @@ public class TicketService {
         return Optional.empty();
     }
 
+    /**
+     * Gets receipts for users
+     * @param email of the user to get receipts for
+     * @return List of receipts for User
+     */
     public List<Map<String, String>> getReceiptsForUser(String email) {
         List<Ticket> userTickets = getTicketsForUser(email);
         return userTickets.stream().map(Ticket::getReceipt).toList();
     }
 
+    /**
+     * Gets all the tickets for a particular email
+     * @param email of the User
+     * @return List of tickets for the user
+     */
     private List<Ticket> getTicketsForUser(String email) {
         List<Ticket> userTickets = new ArrayList<>();
         for (Ticket ticket: tickets.values()) {
@@ -55,6 +75,10 @@ public class TicketService {
         return userTickets;
     }
 
+    /**
+     * Allocates Seat and Section for a User
+     * @return Allocated Seat
+     */
     private SeatAllocation allocateSeat() {
         int seatNumber = (int) Math.ceil(Math.random() * 100);
         while(assignedSeats.contains(seatNumber)) {
@@ -65,6 +89,11 @@ public class TicketService {
         return new SeatAllocation(section, seatNumber);
     }
 
+    /**
+     * Get receipt for given receipt number
+     * @param receiptNumber of the ticket
+     * @return Ticket if it exists
+     */
     public Optional<Ticket> getTicket(Long receiptNumber) {
         if (tickets.containsKey(receiptNumber)) {
             return Optional.of(tickets.get(receiptNumber));
@@ -72,6 +101,11 @@ public class TicketService {
         return Optional.empty();
     }
 
+    /**
+     * Remove all tickets for a particular user
+     * @param email of the user
+     * @return List of tickets removed for user
+     */
     public List<Ticket> removeTicketsForUser(String email) {
         List<Ticket> userTickets = getTicketsForUser(email);
         for (Ticket ticket: userTickets) {
@@ -81,6 +115,11 @@ public class TicketService {
         return userTickets;
     }
 
+    /**
+     * Changes all the seats for the given user
+     * @param email of the user
+     * @return changed seat details and receipt of new ticket
+     */
     public List<Map<String, Object>> changeSeatsForUser(String email) {
         List<Ticket> userTickets = getTicketsForUser(email);
         List<Map<String, Object>> changedSeats = new ArrayList<>();
@@ -95,6 +134,11 @@ public class TicketService {
         return changedSeats;
     }
 
+    /**
+     * Gets all users and their seats in a given section
+     * @param section of the train to get users
+     * @return List of Users and their seat numbers
+     */
     public List<Map<String, String>> getUsersBySection(Section section) {
         List<Map<String, String>> userList = new ArrayList<>();
         for (Ticket ticket: tickets.values()) {

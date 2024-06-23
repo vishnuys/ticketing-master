@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enum for Sections
+ */
 @AllArgsConstructor
 public enum Section {
     SECTION_A("Section A"),
@@ -18,6 +21,11 @@ public enum Section {
         for (Section c : values()) map.put(c.sectionName, c);
     }
 
+    /**
+     * Converts given section string to Section enum
+     * @param name Section name
+     * @return Section if it exists
+     */
     public static Section of(String name) {
         Section result = map.get(name);
         if (result == null) {

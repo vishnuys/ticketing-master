@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * POJO for Ticket
+ */
 @Data
 @AllArgsConstructor
 public class Ticket {
@@ -18,6 +21,9 @@ public class Ticket {
     private SeatAllocation seatAllocation;
     private final BigDecimal price;
 
+    /**
+     * @return Ticket details in JSON format
+     */
     public Map<String, String> getReceipt() {
         Map<String, String> receipt = new HashMap<>();
         receipt.put("Receipt Number", this.getReceiptNumber().toString());

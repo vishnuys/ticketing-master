@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 
+/**
+ * POJO for Purchase Request
+ */
 @Data
 @AllArgsConstructor
 public class PurchaseRequest {

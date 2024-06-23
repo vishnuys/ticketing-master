@@ -6,6 +6,9 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * POJO for changed seat details
+ */
 @AllArgsConstructor
 @Data
 public class ChangedSeats {
@@ -15,6 +18,10 @@ public class ChangedSeats {
     private final SeatAllocation newSeat;
     private final Map<String, String> newReceipt;
 
+    /**
+     * Gets seat change details with new receipt
+     * @return Changed Seat details
+     */
     public final Map<String, Object> getChangedSeats() {
         Map<String, Object> changedSeats = new HashMap<>();
         changedSeats.put("User Name", this.getUser().getFullName());

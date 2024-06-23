@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * List of Price for each from to locations
+ */
 @AllArgsConstructor
 public enum Price {
     LONDON_PARIS(20),
@@ -16,6 +19,12 @@ public enum Price {
 
     private final Integer ticketPrice;
 
+    /**
+     * Get price for given From to locations
+     * @param from
+     * @param to
+     * @return Price of the ticket for given locations
+     */
     public static BigDecimal getPrice(String from, String to) {
         Price price = Price.valueOf(from.toUpperCase() + "_" + to.toUpperCase());
         return new BigDecimal(price.ticketPrice);

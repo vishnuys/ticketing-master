@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Controller for Ticket Management
+ */
 @RestController
 @AllArgsConstructor
 public class TicketController {
@@ -29,6 +32,11 @@ public class TicketController {
     private final UserService userService;
     private final RequestService requestService;
 
+    /**
+     * Creates ticket for given user details
+     * @param request Purchase Ticket Request
+     * @return Receipt for created ticket
+     */
     @PostMapping("purchase-ticket")
     public Map<String, String> purchaseTicketHandler(@RequestBody PurchaseRequest request) {
         List<String> invalidParams = requestService.validatePurchaseRequest(request);
@@ -48,6 +56,11 @@ public class TicketController {
         }
     }
 
+    /**
+     * Gets receipt for given receipt number
+     * @param request Receipt request with Receipt number
+     * @return Receipt of given receipt number
+     */
     @PostMapping("get-receipt")
     public Map<String,String> getReceiptHandler(@RequestBody ReceiptRequest request) {
         Optional<Ticket> ticket = ticketService.getTicket(request.getReceiptNumber());
@@ -59,16 +72,31 @@ public class TicketController {
         }
     }
 
+    /**
+     * Gets all receipts for given user
+     * @param request containing email of the user
+     * @return List of receipts for the given user
+     */
     @PostMapping("get-user-receipts")
     public List<Map<String, String>> getUserReceiptsHandler(@RequestBody UserRequest request) {
         return ticketService.getReceiptsForUser(request.getEmail());
     }
 
+    /**
+     * Change all seats for a given user
+     * @param request containing user email
+     * @return changed seats details for the given user
+     */
     @PostMapping("change-seats")
     public List<Map<String, Object>> changeSeatsForUserHandler(@RequestBody UserRequest request) {
         return ticketService.changeSeatsForUser(request.getEmail());
     }
 
+    /**
+     * Get all users and seats assigned for the given section
+     * @param request containing section
+     * @return List of Users with their seat details
+     */
     @PostMapping("get-users-by-section")
     public List<Map<String, String>> getUsersBySectionHandler(@RequestBody SectionRequest request) {
         try {

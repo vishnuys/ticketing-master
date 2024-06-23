@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * POJO for Section Request
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
